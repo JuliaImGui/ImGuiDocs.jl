@@ -19,7 +19,7 @@ end
 
 docs = [multidocref("CImGui"), multidocref("ImGuiTestEngine")]
 
-outpath = joinpath(@__DIR__, "build")
+outpath = "deploy" in ARGS ? mktempdir() : joinpath(@__DIR__, "build")
 
 MultiDocumenter.make(
     outpath,

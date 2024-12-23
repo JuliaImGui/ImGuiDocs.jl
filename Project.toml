@@ -1,0 +1,4 @@
+name = "ImGuiDocs"
+uuid = "9ed6dc66-68ca-4d20-8c23-ea2f92d3bfbe"
+authors = ["JamesWrigley <james@puiterwijk.org>"]
+version = "0.1.0"

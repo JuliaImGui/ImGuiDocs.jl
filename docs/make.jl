@@ -27,8 +27,7 @@ MultiDocumenter.make(
     search_engine = MultiDocumenter.SearchConfig(
         index_versions = ["stable"],
         engine = MultiDocumenter.FlexSearch
-    ),
-    rootpath = "/CImGui.jl/"
+    )
 )
 
 if "deploy" in ARGS

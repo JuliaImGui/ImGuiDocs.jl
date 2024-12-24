@@ -1,6 +1,7 @@
 using MultiDocumenter
 
 clonedir = joinpath(@__DIR__, "clones")
+deploying = "deploy" in ARGS
 
 # Helper function stolen from DynamicalSystemsDocs.jl
 function multidocref(package, descr = "")
@@ -19,7 +20,7 @@ end
 
 docs = [multidocref("CImGui"), multidocref("ImGuiTestEngine")]
 
-outpath = "deploy" in ARGS ? mktempdir() : joinpath(@__DIR__, "build")
+outpath = deploying ? mktempdir() : joinpath(@__DIR__, "build")
 
 MultiDocumenter.make(
     outpath,
@@ -27,7 +28,8 @@ MultiDocumenter.make(
     search_engine = MultiDocumenter.SearchConfig(
         index_versions = ["stable"],
         engine = MultiDocumenter.FlexSearch
-    )
+    ),
+    rootpath = deploying ? "/ImGuiDocs.jl/" : "/"
 )
 
 if "deploy" in ARGS

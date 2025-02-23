@@ -18,7 +18,7 @@ function multidocref(package, descr = "")
     )
 end
 
-docs = [multidocref("CImGui"), multidocref("ImGuiTestEngine")]
+docs = [multidocref("CImGui"), multidocref("ImPlot"), multidocref("ImGuiTestEngine")]
 
 outpath = deploying ? mktempdir() : joinpath(@__DIR__, "build")
 

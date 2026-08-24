@@ -1,7 +1,9 @@
-using MultiDocumenter
+using MultiDocumenter: MultiDocumenter, MultiDocRef, MegaDropdownNav, Column, Link
 
 clonedir = joinpath(@__DIR__, "clones")
 deploying = "deploy" in ARGS
+
+org_link(package) = "https://github.com/JuliaImGui/$(package).jl.git"
 
 # Helper function stolen from DynamicalSystemsDocs.jl
 function multidocref(package, descr = "")
@@ -10,15 +12,43 @@ function multidocref(package, descr = "")
         name *= " - $(descr)"
     end
 
-    MultiDocumenter.MultiDocRef(;
+    MultiDocRef(;
         upstream = joinpath(clonedir, package),
         path = lowercase(package),
         name,
-        giturl = "https://github.com/JuliaImGui/$(name).git",
+        giturl = org_link(package),
     )
 end
 
-docs = [multidocref("CImGui"), multidocref("ImPlot"), multidocref("ImGuiTestEngine")]
+function link(package, descr = "")
+    name = "$(package).jl"
+    if !isempty(descr)
+        name *= " - $(descr)"
+    end
+
+    Link(name, org_link(package))
+end
+
+docs = [multidocref("CImGui"),
+        MegaDropdownNav("Ecosystem packages",
+                        [
+                            Column("Plotting",
+                                   [
+                                       multidocref("ImPlot"),
+                                       link("ImPlotExtra"),
+                                       link("ImPlot3D")
+                                   ]),
+                            Column("Widgets & Themes",
+                                   [
+                                       link("ImGuiThemes"),
+                                       multidocref("ImGuiNodeEditor")
+                                   ]),
+                            Column("Testing",
+                                   [
+                                       multidocref("ImGuiTestEngine")
+                                   ])
+                        ])
+        ]
 
 outpath = deploying ? mktempdir() : joinpath(@__DIR__, "build")
 

@@ -6,7 +6,7 @@ deploying = "deploy" in ARGS
 org_link(package) = "https://github.com/JuliaImGui/$(package).jl.git"
 
 # Helper function stolen from DynamicalSystemsDocs.jl
-function multidocref(package, descr = "")
+function multidocref(package, descr = ""; giturl = org_link(package), branch = "gh-pages")
     name = "$(package).jl"
     if !isempty(descr)
         name *= " - $(descr)"
@@ -16,7 +16,8 @@ function multidocref(package, descr = "")
         upstream = joinpath(clonedir, package),
         path = lowercase(package),
         name,
-        giturl = org_link(package),
+        giturl,
+        branch,
     )
 end
 
@@ -45,7 +46,9 @@ docs = [multidocref("CImGui"),
                                    ]),
                             Column("Testing",
                                    [
-                                       multidocref("ImGuiTestEngine")
+                                       multidocref("ImGuiTestEngine";
+                                                   giturl = org_link("CImGui"),
+                                                   branch = "gh-pages-imguitestengine")
                                    ])
                         ])
         ]
